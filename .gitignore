@@ -1,5 +1,6 @@
 # Dependências e Logs
 node_modules
+venv/
 *.log
 npm-debug.log*
 
