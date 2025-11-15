@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { FiClock, FiAlertTriangle, FiX } from 'react-icons/fi';
 import notificationSound from '../assets/audio/notification.mp3';
 
-const SERVER_URL = 'https://RENDER_URL_PLACEHOLDER'; 
+const SERVER_URL = 'https://pointr-socket-server.onrender.com'; 
 const socket = io(SERVER_URL, { transports: ['websocket', 'polling'] });
 const DISPLAY_TIME = 3000;
 

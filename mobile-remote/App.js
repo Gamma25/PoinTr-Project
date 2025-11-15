@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import { io } from 'socket.io-client';
 
-const SERVER_URL = 'https://RENDER_URL_PLACEHOLDER';
+const SERVER_URL = 'https://pointr-socket-server.onrender.com';
 
 const socket = io(SERVER_URL, {
   transports: ['websocket'],
