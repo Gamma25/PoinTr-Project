@@ -69,6 +69,13 @@ const App = () => {
           color='#8B5CF6'
         />
         <View style={styles.spacer} />
+
+        <Button
+          title="CAIO AMA PHP"
+          onPress={() => sendAction('BRÁS CUBAS É TOP')}
+          color='#eeeee4'
+        />
+        <View style={styles.spacer} />
       </View>
     </View>
   )
