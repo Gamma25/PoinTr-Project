@@ -1,18 +1,18 @@
 import React from "react";
-import StatCard from "./StatCard";
+import StatCard from "../Components/StatCard";
 import Gerar from "../assets/png/gerar.png";
-import Header from "./Header";
-import ChartWrapper from "./ChartWrapper";
-import BarChart from "./charts/BarChart";
-import LineChart from "./charts/LineChart";
-import ScatterChart from "./charts/ScatterChart";
-import DonutChart from "./charts/DonutChart";
+import Header from "../Components/Header";
+import ChartWrapper from "../Components/ChartWrapper";
+import BarChart from "../Components/charts/BarChart";
+import LineChart from "../Components/charts/LineChart";
+import ScatterChart from "../Components/charts/ScatterChart";
+import DonutChart from "../Components/charts/DonutChart";
 
-const GeralContent = () => {
+const GeralContent = ({ onSearchClick }) => {
 
     return (
         <main className="w-full p-8">
-            <Header/>
+            <Header title="Painel Geral" onSearchClick={onSearchClick}/>
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-11 gap-6"> 
                 <div className="lg:col-span-5 flex flex-col gap-6">
                     <div className="grid grid-cols-2 gap-4">

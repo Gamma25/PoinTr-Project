@@ -22,28 +22,28 @@ const Sidebar = () => {
                 </div>
                 
                 <ul className="flex flex-col items-center space-y-2">
-                    <SidebarItem iconSrc={GeralIcon} text="Geral" active/>
-                    <SidebarItem iconSrc={GestaoIcon} text="Gestão"/>
-                    <SidebarItem iconSrc={AusenciasIcon} text="Ausências"/>
+                    <SidebarItem iconSrc={GeralIcon} text="Geral" to="/" />
+                    <SidebarItem iconSrc={GestaoIcon} text="Gestão" to="/events"/>
+                    <SidebarItem iconSrc={AusenciasIcon} text="Ausências" to="/employees" />
                 </ul>
 
                 <div className="flex-grow"></div>
 
                 <ul className="flex flex-col items-center space-y-2">
-                    <SidebarItem iconSrc={AlertaIcon} text="Alertas"/>
-                    <SidebarItem iconSrc={TurnosIcon} text="Turnos"/>
-                    <SidebarItem iconSrc={AnaliseIcon} text="Análises"/>
+                    <SidebarItem iconSrc={AlertaIcon} text="Alertas" to="/testes" />
+                    <SidebarItem iconSrc={TurnosIcon} text="Turnos" to="/testes" />
+                    <SidebarItem iconSrc={AnaliseIcon} text="Análises" to="/testes" />
                 </ul>
                 
                 <div className="flex-grow"></div>
 
                 <ul className="flex flex-col items-center space-y-2">
-                    <SidebarItem iconSrc={RelatorioIcon} text="Relatórios"/>
+                    <SidebarItem iconSrc={RelatorioIcon} text="Relatórios" to="/testes" />
                 </ul>
                 <div className="flex-grow"></div>
                 <div className="flex-grow"></div>
                  <ul className="flex flex-col items-center space-y-2">
-                    <SidebarItem iconSrc={SairIcon} text="Sair"/>
+                    <SidebarItem iconSrc={SairIcon} text="Sair" to="/testes" />
                 </ul>
 
             </nav>
