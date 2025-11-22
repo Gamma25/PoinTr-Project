@@ -121,6 +121,7 @@ const EventsPage = ({ onSearchClick }) => {
                 today: 'Hoje',
                 previous: 'Ant',
                 next: 'Prox',
+                allDay: 'Dia Todo',
               }}
               eventPropGetter={(event) => ({
                 style: {

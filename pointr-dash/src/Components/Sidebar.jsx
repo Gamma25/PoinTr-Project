@@ -30,8 +30,8 @@ const Sidebar = () => {
                 <div className="flex-grow"></div>
 
                 <ul className="flex flex-col items-center space-y-2">
-                    <SidebarItem iconSrc={AlertaIcon} text="Alertas" to="/testes" />
-                    <SidebarItem iconSrc={TurnosIcon} text="Turnos" to="/testes" />
+                    <SidebarItem iconSrc={AlertaIcon} text="Alertas" to="/employees/1" />
+                    <SidebarItem iconSrc={TurnosIcon} text="Turnos" to="/shifts" />
                     <SidebarItem iconSrc={AnaliseIcon} text="Análises" to="/testes" />
                 </ul>
                 
