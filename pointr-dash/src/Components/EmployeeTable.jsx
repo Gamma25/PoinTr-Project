@@ -1,47 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import employeesRawData from '../datasets/employeesRawData.json'
 import { FiMoreVertical } from 'react-icons/fi';
 import EditableCell from "./EditableCell";
 import ColumnVisibilityMenu from "./ColumnVisibilityMenu";
 
 
-const employeesData = [
-    { id: 1, name: "Lucas Tania", job: "Design Lead", city: "Shanghai", phone: "421 3294", country: "EUA", timezone: "Zone 1", connection: "Very strong", company: "Facebook", badge: "Lira" },
-    { id: 2, name: "Matteo Vistocco", job: "Head of Design", city: "Cairo", phone: "482 3245", country: "EUA", timezone: "Zone 3", connection: "Good", company: "Apple", badge: null },
-    { id: 3, name: "Aaron Kim", job: "Front-end Engineer", city: "New York City", phone: "592 2105", country: "EUA", timezone: "Zone 3", connection: "Good", company: "The Walt Disney Company", badge: null },
-    { id: 4, name: "Thomas Train", job: "CMO", city: "Paris", phone: "412 3901", country: "UK", timezone: "Zone 4", connection: "Very strong", company: "Instagram", badge: null },
-    { id: 5, name: "Sarah Clinton", job: "Senior Analyst", city: "London", phone: "499 2031", country: "CAN", timezone: "Zone 1", connection: "Very weak", company: "Bank of America", badge: null },
-    { id: 6, name: "Juan Smith", job: "Product Designer", city: "Mumbai", phone: "324 3910", country: "EUA", timezone: "Zone 4", connection: "Good", company: "MasterCard", badge: null },
-    { id: 7, name: "Lucas Tania", job: "Design Lead", city: "Shanghai", phone: "421 3294", country: "EUA", timezone: "Zone 1", connection: "Very strong", company: "Facebook", badge: "Lira" },
-    { id: 8, name: "Matteo Vistocco", job: "Head of Design", city: "Cairo", phone: "482 3245", country: "EUA", timezone: "Zone 3", connection: "Good", company: "Apple", badge: null },
-    { id: 9, name: "Aaron Kim", job: "Front-end Engineer", city: "New York City", phone: "592 2105", country: "EUA", timezone: "Zone 3", connection: "Good", company: "The Walt Disney Company", badge: null },
-    { id: 10, name: "Thomas Train", job: "CMO", city: "Paris", phone: "412 3901", country: "UK", timezone: "Zone 4", connection: "Very strong", company: "Instagram", badge: null },
-    { id: 11, name: "Sarah Clinton", job: "Senior Analyst", city: "London", phone: "499 2031", country: "CAN", timezone: "Zone 1", connection: "Very weak", company: "Bank of America", badge: null },
-    { id: 12, name: "Juan Smith", job: "Product Designer", city: "Mumbai", phone: "324 3910", country: "EUA", timezone: "Zone 4", connection: "Good", company: "MasterCard", badge: null },
-    { id: 13, name: "Lucas Tania", job: "Design Lead", city: "Shanghai", phone: "421 3294", country: "EUA", timezone: "Zone 1", connection: "Very strong", company: "Facebook", badge: "Lira" },
-    { id: 14, name: "Matteo Vistocco", job: "Head of Design", city: "Cairo", phone: "482 3245", country: "EUA", timezone: "Zone 3", connection: "Good", company: "Apple", badge: null },
-    { id: 15, name: "Aaron Kim", job: "Front-end Engineer", city: "New York City", phone: "592 2105", country: "EUA", timezone: "Zone 3", connection: "Good", company: "The Walt Disney Company", badge: null },
-    { id: 16, name: "Thomas Train", job: "CMO", city: "Paris", phone: "412 3901", country: "UK", timezone: "Zone 4", connection: "Very strong", company: "Instagram", badge: null },
-    { id: 17, name: "Sarah Clinton", job: "Senior Analyst", city: "London", phone: "499 2031", country: "CAN", timezone: "Zone 1", connection: "Very weak", company: "Bank of America", badge: null },
-    { id: 18, name: "Juan Smith", job: "Product Designer", city: "Mumbai", phone: "324 3910", country: "EUA", timezone: "Zone 4", connection: "Good", company: "MasterCard", badge: null },
-];
+const employeesData = employeesRawData.map(emp => ({
+    ...emp,
+    id: parseInt(emp.id)
+}));
 
 const statusMap = {
-    'Very strong': 'bg-green-400',
-    'Good': 'bg-indigo-400',
-    'Weak': 'bg-yellow-400',
-    'Very weak': 'bg-red-400',
+    'Excelente': 'bg-green-400',
+    'Boa': 'bg-indigo-400',
+    'Ruim': 'bg-yellow-400',
+    'Muito Ruim': 'bg-red-400',
 };
 
 
 const COLUMN_METADATA = [
     { key: 'name', label: 'Colaborador', visible: true, isEditable: false },
     { key: 'job', label: 'Cargo', visible: true, isEditable: true },
-    { key: 'city', label: 'Cidade', visible: true, isEditable: true },
+    { key: 'cidade', label: 'Cidade', visible: true, isEditable: true },
     { key: 'connection', label: 'Conexão', visible: true, isEditable: false },
-    { key: 'company', label: 'Empresa', visible: true, isEditable: true },
+    { key: 'filial_name', label: 'Filial', visible: false, isEditable: false },
     { key: 'phone', label: 'Telefone', visible: false, isEditable: true },
-    { key: 'country', label: 'País', visible: true, isEditable: false },
-    { key: 'timezone', label: 'Zona', visible: false, isEditable: false },
+    { key: 'email', label: 'Email', visible: true, isEditable: false },
+    { key: 'zona_de_atuacao', label: 'Zona', visible: false, isEditable: false },
 ];
 
 const EmployeeTable = () => {
@@ -64,6 +49,44 @@ const EmployeeTable = () => {
             [key]: !prev[key]
         }));
     };
+
+
+    const tableWrapperRef = useRef(null);
+
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+
+    const handleMouseDown = (e) => {
+        if (!tableWrapperRef.current) return;
+        setIsDragging(true);
+        setStartX(e.pageX - tableWrapperRef.current.offsetLeft);
+        setScrollLeft(tableWrapperRef.current.scrollLeft);
+
+        document.body.style.cursor = 'grabbing';
+    };
+
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+        document.body.style.cursor = 'default';
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        document.body.style.cursor = 'default';
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging || !tableWrapperRef.current) return;
+        e.preventDefault();
+
+        const x = e.pageX - tableWrapperRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5;
+
+        tableWrapperRef.current.scrollLeft = scrollLeft - walk;
+    };
+
 
     const handleSave = (id, field, newValue) => {
         const updatedEmployees = employees.map(emp => {
@@ -100,12 +123,18 @@ const EmployeeTable = () => {
                 visibility={columnVisibility}
                 onToggle={toggleColumn}
                 onClose={() => setIsMenuOpen(false)}
+                metadata={COLUMN_METADATA}
             />
 
-            <div className="overflow-x-auto 
+            <div className="overflow-x-auto w-full
                             scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800
-                            [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600
-            ">
+                            [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600"
+                            ref={tableWrapperRef}
+                            onMouseDown={handleMouseDown}
+                            onMouseLeave={handleMouseLeave}
+                            onMouseUp={handleMouseUp}
+                            onMouseMove={handleMouseMove}
+            >
                 <table className="min-w-full divide-y divide-slate-700">
 
                     <thead className="bg-[#191e57]">
@@ -128,7 +157,7 @@ const EmployeeTable = () => {
 
                     <tbody className="bg-gradient-to-t from-[#06062285] to-[#0606228a] divide-y divide-slate-700">
                         {employees.map((employee) => (
-                            <tr key={employee.id} className="hover:bg-slate-700 transition duration-150">
+                            <tr key={employee.id} className="hover:bg-[#1a2141] transition duration-150">
 
                                 {columnVisibility.name && (
                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -152,11 +181,11 @@ const EmployeeTable = () => {
                                     </td>
                                 )}
 
-                                {columnVisibility.city && (
+                                {columnVisibility.cidade && (
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                                         <EditableCell
-                                            value={employee.city}
-                                            onSave={(newValue) => handleSave(employee.id, 'city', newValue)}
+                                            value={employee.cidade}
+                                            onSave={(newValue) => handleSave(employee.id, 'cidade', newValue)}
                                         />
                                     </td>
                                 )}
@@ -170,12 +199,12 @@ const EmployeeTable = () => {
                                     </td>
                                 )}
 
-                                {columnVisibility.company && (
+                                {columnVisibility.filial_name && (
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className="px-2 py-1 test-xs font-semibold rounded bg-gray-700 text-white">
                                             <EditableCell
-                                                value={employee.company}
-                                                onSave={(newValue) => handleSave(employee.id, 'company', newValue)}
+                                                value={employee.filial_name}
+                                                onSave={(newValue) => handleSave(employee.id, 'filial_name', newValue)}
                                             />
                                         </span>
                                     </td>
@@ -187,15 +216,15 @@ const EmployeeTable = () => {
                                     </td>
                                 )}
 
-                                {columnVisibility.country && (
+                                {columnVisibility.email && (
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        {employee.country}
+                                        {employee.email}
                                     </td>
                                 )}
 
-                                {columnVisibility.timezone && (
+                                {columnVisibility.zona_de_atuacao && (
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                        {employee.timezone}
+                                        {employee.zona_de_atuacao}
                                     </td>
                                 )}
 

@@ -33,7 +33,7 @@ const EventList = () => {
         <div className="flex flex-col h-full">
 
             <h3 className="text-lg font-semibold text-white mb-2">Próximos Eventos</h3>
-            <p className="text-xs text-gray-400 mb-6">Eventos agendados no</p>
+            <p className="text-xs text-gray-400 mb-6">Eventos agendados</p>
 
             <div className="space-y-6 overflow-y-auto pr-3">
                 {upcomingEvents.map((event, index) => {

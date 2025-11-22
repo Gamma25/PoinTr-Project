@@ -8,6 +8,8 @@ import NotificationSystem from "./Components/NotificationSystem";
 import GlobalSearchModal from "./Components/GlobalSearchModal";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import EmployeesPage from "./pages/EmployeesPage";
+import EmployeeDetailPages from "./pages/EmployeeDetailPage";
+import ShiftManagementPage from "./pages/ShiftManagementPage";
 
 export function App() {
   const mainCompesationMargin = 'ml-24';
@@ -33,6 +35,8 @@ export function App() {
                 <Route path="/" element={<GeralContent onSearchClick={openSearch} />} />
                 <Route path="/events" element={<EventsPage onSearchClick={openSearch} />} />
                 <Route path="/employees" element={<EmployeesPage onSearchClick={openSearch} />} />
+                <Route path="/employees/:id" element={<EmployeeDetailPages onSearchClick={openSearch} />} />
+                <Route path="/shifts" element={<ShiftManagementPage onSearchClick={openSearch} />} />
               </Routes>
             </div>
         </div>
